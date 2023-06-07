@@ -20,6 +20,7 @@
     <ul>
         {% for competition in present_competitions %}
         <li>
+<<<<<<< HEAD
             {{competition['name']}}<br />
             Date: {{competition['date']}}
             Number of Places: {{competition['numberOfPlaces']}}
@@ -27,6 +28,13 @@
             <a href="{{ url_for('book', competition_name=competition['name'], club_name=club['name']) }}">Book Places</a>
             {% elif competition['numberOfPlaces'] | int == 0 %}
             Booking Closed.
+=======
+            {{comp['name']}}<br />
+            Date: {{comp['date']}}</br>
+            Number of Places: {{comp['numberOfPlaces']}}
+            {%if comp['numberOfPlaces']|int >0%}
+            <a href="{{ url_for('book',competition_name=comp['name'],club_name=club['name']) }}">Book Places</a>
+>>>>>>> 430fc72e2f0c12484e7a86ca96cf5506157e4b84
             {%endif%}
             <hr>
         </li>
@@ -46,6 +54,8 @@
         {% endfor %}
     </ul>
     {%endwith%}
+
+    <a href="{{ url_for('club_points') }}">View club points</a>
 
 </body>
 </html>

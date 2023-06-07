@@ -1,4 +1,5 @@
 import json
+from operator import itemgetter
 
 from flask import Flask, render_template, request, redirect, flash, url_for
 
@@ -115,7 +116,10 @@ def purchase_places():
     return render_template('booking.html', club=club, competition=competition), 400
 
 
-# TODO: Add route for points display
+@app.route('/club-points')
+def club_points():
+    clubs = sorted(CLUBS, key=itemgetter('name'))
+    return render_template('club-points.html', clubs=clubs)
 
 
 @app.route('/logout')

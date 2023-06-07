@@ -4,7 +4,7 @@ MOCK_CLUBS = [
     {
         "name":"Simply Lift",
         "email":"john@simplylift.co",
-        "points":"130"
+        "points":"13"
     },
     {
         "name":"Iron Temple",
@@ -16,7 +16,6 @@ MOCK_CLUBS = [
         "points":"12"
     }
 ]
-
 
 MOCK_COMPETITIONS = [
         {
