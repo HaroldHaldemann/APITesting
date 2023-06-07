@@ -28,8 +28,18 @@ def index():
 
 @app.route('/show-summary', methods=['POST'])
 def show_summary():
-    club = [club for club in CLUBS if club['email'] == request.form['email']][0]
-    return render_template('welcome.html', club=club, competitions=COMPETITIONS)
+    email = request.form.get('email', "")
+    if not email:
+        flash("Please enter your email.", 'error')
+        return render_template('index.html'), 401
+
+    club = [club for club in CLUBS if club['email'] == email]
+
+    if club:
+        return render_template('welcome.html', club=club[0], competitions=COMPETITIONS)
+
+    flash(f"No account related to this email: {email}.", 'error')
+    return render_template('index.html'), 401
 
 
 @app.route('/book/<competition_name>/<club_name>')
