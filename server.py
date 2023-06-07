@@ -44,15 +44,17 @@ def show_summary():
 
 @app.route('/book/<competition_name>/<club_name>')
 def book(competition_name, club_name):
-    found_club = [club for club in CLUBS if club['name'] == club_name][0]
-    found_competition = [competition for competition in COMPETITIONS if competition['name'] == competition_name][0]
+    found_club = [club for club in CLUBS if club['name'] == club_name]
+    if not found_club:
+        flash(f"There is no club with the name {club_name}.", 'error')
+        return render_template('index.html'), 404
 
-    if found_club and found_competition:
-        return render_template('booking.html', club=found_club, competition=found_competition)
+    found_competition = [competition for competition in COMPETITIONS if competition['name'] == competition_name]
+    if not found_competition:
+        flash(f"There is no competition with the name {competition_name}.", 'error')
+        return render_template('welcome.html', club=found_club[0], competitions=COMPETITIONS), 404
 
-    flash("Something went wrong. Please try again.")
-    return render_template('welcome.html', club=found_club, competitions=COMPETITIONS)
-
+    return render_template('booking.html', club=found_club[0], competition=found_competition[0])
 
 @app.route('/purchase-places', methods=['POST'])
 def purchase_places():

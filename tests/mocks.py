@@ -15,7 +15,8 @@ MOCK_CLUBS = [
     }
 ]
 
-MOCK_COMPTIETIONS = [
+
+MOCK_COMPETITIONS = [
     {
         "name": "Spring Festival",
         "date": "2020-03-27 10:00:00",
@@ -26,4 +27,8 @@ MOCK_COMPTIETIONS = [
         "date": "2020-10-22 13:30:00",
         "numberOfPlaces": "13"
     }
+<<<<<<< HEAD
 ]
+=======
+]
+>>>>>>> 2d30ad4c0ccb2c1aeabc926a4207f2d40ef0d26e
