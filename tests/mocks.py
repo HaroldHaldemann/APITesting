@@ -2,7 +2,7 @@ MOCK_CLUBS = [
     {
         "name":"Simply Lift",
         "email":"john@simplylift.co",
-        "points":"13"
+        "points":"130"
     },
     {
         "name":"Iron Temple",
@@ -25,10 +25,6 @@ MOCK_COMPETITIONS = [
     {
         "name": "Fall Classic",
         "date": "2020-10-22 13:30:00",
-        "numberOfPlaces": "13"
+        "numberOfPlaces": "3"
     }
-<<<<<<< HEAD
 ]
-=======
-]
->>>>>>> 2d30ad4c0ccb2c1aeabc926a4207f2d40ef0d26e
