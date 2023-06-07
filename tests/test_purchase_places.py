@@ -10,6 +10,8 @@ class TestPurchasePlaces:
     def setup_method(self):
         server.CLUBS = mocks.MOCK_CLUBS
         server.COMPETITIONS = mocks.MOCK_COMPETITIONS
+        server.PAST_COMPETITIONS = mocks.MOCK_PAST_COMPETITIONS
+        server.PRESENT_COMPETITIONS = mocks.MOCK_PRESENT_COMPETITIONS
     
     def test_valid_required_places(self):
         # given
@@ -85,7 +87,7 @@ class TestPurchasePlaces:
         result = self.client.post(
             "/purchase-places",
             data={
-                "places": 7,
+                "places": 11,
                 "club": club_name,
                 "competition": competition['name']
             }

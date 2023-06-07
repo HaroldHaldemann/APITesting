@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 def initialize_booked_places(competitions, clubs):
     booked_places = {}
     for competition in competitions:
@@ -17,6 +20,22 @@ def check_club_places(competition_name, club_name, booked_places, required_place
 
     return True
 
+
 def update_booked_places(competition_name, club_name, booked_places, required_places):
     booked_places[competition_name][club_name] += required_places
     return booked_places
+
+
+def get_past_competitions(competitions):
+    return [
+        competition
+        for competition in competitions
+        if datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') < datetime.now()
+    ]
+
+def get_present_competitions(competitions):
+    return [
+        competition
+        for competition in competitions
+        if datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') >= datetime.now()
+    ]

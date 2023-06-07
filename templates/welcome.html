@@ -5,7 +5,7 @@
     <title>Summary | GUDLFT Registration</title>
 </head>
 <body>
-        <h2>Welcome, {{club['email']}} </h2><a href="{{url_for('logout')}}">Logout</a>
+    <h2>Welcome, {{club['email']}} </h2><a href="{{ url_for('logout') }}">Logout</a>
 
     {% with messages = get_flashed_messages()%}
     {% if messages %}
@@ -16,18 +16,33 @@
        </ul>
     {% endif%}
     Points available: {{club['points']}}
-    <h3>Competitions:</h3>
+    <h3>Open Competitions:</h3>
     <ul>
-        {% for comp in competitions%}
+        {% for competition in present_competitions %}
         <li>
-            {{comp['name']}}<br />
-            Date: {{comp['date']}}</br>
-            Number of Places: {{comp['numberOfPlaces']}}
-            {%if comp['numberOfPlaces']|int >0%}
-            <a href="{{ url_for('book', competition_name=comp['name'], club_name=club['name']) }}">Book Places</a>
+            {{competition['name']}}<br />
+            Date: {{competition['date']}}
+            Number of Places: {{competition['numberOfPlaces']}}
+            {% if competition['numberOfPlaces'] | int > 0 %} 
+            <a href="{{ url_for('book', competition_name=competition['name'], club_name=club['name']) }}">Book Places</a>
+            {% elif competition['numberOfPlaces'] | int == 0 %}
+            Booking Closed.
             {%endif%}
+            <hr>
         </li>
-        <hr />
+
+        {% endfor %}
+    </ul>
+    <h3>Past Competitions:</h3>
+    <ul>
+        {% for competition in past_competitions %}
+        <li>
+            {{competition['name']}}<br />
+            Date: {{competition['date']}}
+            Booking closed.
+            <hr>
+        </li>
+
         {% endfor %}
     </ul>
     {%endwith%}

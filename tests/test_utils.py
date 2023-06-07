@@ -13,6 +13,8 @@ class TestUtils:
 
         # then
         assert result == {
+            'Push&Pull': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
+            'MrHuman': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Spring Festival': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Fall Classic': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0}
         }
@@ -22,6 +24,8 @@ class TestUtils:
         club_name = mocks.MOCK_CLUBS[0]['name']
         competition_name = mocks.MOCK_COMPETITIONS[0]['name']
         booked_places = {
+            'Push&Pull': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
+            'MrHuman': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Spring Festival': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Fall Classic': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0}
         }
@@ -38,7 +42,9 @@ class TestUtils:
         club_name = mocks.MOCK_CLUBS[0]['name']
         competition_name = mocks.MOCK_COMPETITIONS[0]['name']
         booked_places = {
-            'Spring Festival': {'Simply Lift': 9, 'Iron Temple': 0, 'She Lifts': 0},
+            'Push&Pull': {'Simply Lift': 9, 'Iron Temple': 0, 'She Lifts': 0},
+            'MrHuman': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
+            'Spring Festival': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Fall Classic': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0}
         }
         required_places = 7
@@ -54,6 +60,8 @@ class TestUtils:
         club_name = mocks.MOCK_CLUBS[0]['name']
         competition_name = mocks.MOCK_COMPETITIONS[0]['name']
         booked_places = {
+            'Push&Pull': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
+            'MrHuman': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Spring Festival': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Fall Classic': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0}
         }
@@ -64,6 +72,28 @@ class TestUtils:
 
         # then
         assert result == {
-            'Spring Festival': {'Simply Lift': 7, 'Iron Temple': 0, 'She Lifts': 0},
+            'Push&Pull': {'Simply Lift': 7, 'Iron Temple': 0, 'She Lifts': 0},
+            'MrHuman': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
+            'Spring Festival': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0},
             'Fall Classic': {'Simply Lift': 0, 'Iron Temple': 0, 'She Lifts': 0}
         }
+    
+    def test_get_past_competitions(self):
+        # given
+        competitions = mocks.MOCK_COMPETITIONS
+
+        # when
+        result = utils.get_past_competitions(competitions)
+
+        # then
+        assert result == mocks.MOCK_PAST_COMPETITIONS
+    
+    def test_get_present_competitions(self):
+        # given
+        competitions = mocks.MOCK_COMPETITIONS
+
+        # when
+        result = utils.get_present_competitions(competitions)
+
+        # then
+        assert result == mocks.MOCK_PRESENT_COMPETITIONS

@@ -22,6 +22,9 @@ app.secret_key = 'something_special'
 CLUBS = load_clubs()
 COMPETITIONS = load_competitions()
 
+PAST_COMPETITIONS = utils.get_past_competitions(COMPETITIONS)
+PRESENT_COMPETITIONS = utils.get_present_competitions(COMPETITIONS)
+
 BOOKED_PLACES = utils.initialize_booked_places(COMPETITIONS, CLUBS)
 
 
@@ -40,7 +43,12 @@ def show_summary():
     club = [club for club in CLUBS if club['email'] == email]
 
     if club:
-        return render_template('welcome.html', club=club[0], competitions=COMPETITIONS)
+        return render_template(
+            'welcome.html',
+            club=club[0],
+            past_competitions=PAST_COMPETITIONS,
+            present_competitions=PRESENT_COMPETITIONS
+        )
 
     flash(f"No account related to this email: {email}.", 'error')
     return render_template('index.html'), 401
@@ -56,9 +64,21 @@ def book(competition_name, club_name):
     found_competition = [competition for competition in COMPETITIONS if competition['name'] == competition_name]
     if not found_competition:
         flash(f"There is no competition with the name {competition_name}.", 'error')
-        return render_template('welcome.html', club=found_club[0], competitions=COMPETITIONS), 404
-
-    return render_template('booking.html', club=found_club[0], competition=found_competition[0])
+        status_code = 404
+    
+    elif found_competition[0] in PAST_COMPETITIONS:
+        flash(f"The competition {found_competition[0]['name']} is over.", 'error')
+        status_code = 400
+    
+    else:
+        return render_template('booking.html', club=found_club[0], competition=found_competition[0])
+    
+    return render_template(
+            'welcome.html',
+            club=found_club[0],
+            past_competitions=PAST_COMPETITIONS,
+            present_competitions=PRESENT_COMPETITIONS
+        ), status_code
 
 @app.route('/purchase-places', methods=['POST'])
 def purchase_places():
@@ -86,8 +106,12 @@ def purchase_places():
         competition['numberOfPlaces'] = competition_places - required_places
         club['points'] = club_points - (required_places * 3)
         flash('Great-booking complete!', 'success')
-        return render_template('welcome.html', club=club, competitions=COMPETITIONS)
-
+        return render_template(
+            'welcome.html',
+            club=club,
+            past_competitions=PAST_COMPETITIONS,
+            present_competitions=PRESENT_COMPETITIONS
+        )
     return render_template('booking.html', club=club, competition=competition), 400
 
 
