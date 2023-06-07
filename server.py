@@ -2,6 +2,8 @@ import json
 
 from flask import Flask, render_template, request, redirect, flash, url_for
 
+import utils
+
 
 def load_clubs():
     with open('clubs.json') as clubs_json:
@@ -19,6 +21,8 @@ app.secret_key = 'something_special'
 
 CLUBS = load_clubs()
 COMPETITIONS = load_competitions()
+
+BOOKED_PLACES = utils.initialize_booked_places(COMPETITIONS, CLUBS)
 
 
 @app.route('/')
@@ -49,11 +53,30 @@ def purchase_places():
     club = [club for club in CLUBS if club['name'] == request.form['club']][0]
     competition = [competition for competition in COMPETITIONS if competition['name'] == request.form['competition']][0]
 
-    places_required = int(request.form['places'])
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces']) - places_required
+    required_places = int(request.form['places'])
+    competition_places = int(competition['numberOfPlaces'])
+    club_points = int(club['points'])
 
-    flash('Great-booking complete!')
-    return render_template('welcome.html', club=club, competitions=COMPETITIONS)
+    if not (0 < required_places < 13):
+        flash("Please enter a valid number (between 1 and 12).", 'error')
+    
+    elif required_places > competition_places:
+        flash(f"There are only {competition_places} places available.", 'error')
+    
+    elif not utils.check_club_places(competition['name'], club['name'], BOOKED_PLACES, required_places):
+        flash("You cannot book more than 12 places in a competition.", 'error')
+    
+    elif required_places * 3 > club_points:
+        flash(f"You do not have enough points: {required_places * 3 - club_points} points missing.")
+    
+    else:
+        utils.update_booked_places(competition['name'], club['name'], BOOKED_PLACES, required_places)
+        competition['numberOfPlaces'] = competition_places - required_places
+        club['points'] = club_points - (required_places * 3)
+        flash('Great-booking complete!', 'success')
+        return render_template('welcome.html', club=club, competitions=COMPETITIONS)
+
+    return render_template('booking.html', club=club, competition=competition), 400
 
 
 # TODO: Add route for points display
