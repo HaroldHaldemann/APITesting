@@ -2,7 +2,7 @@ from tests import mocks
 from server import app
 
 
-class TestShowSummary:
+class TestLogin:
 
     client = app.test_client()
 
