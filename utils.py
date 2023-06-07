@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 
 def initialize_booked_places(competitions, clubs):
@@ -33,9 +34,20 @@ def get_past_competitions(competitions):
         if datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') < datetime.now()
     ]
 
+
 def get_present_competitions(competitions):
     return [
         competition
         for competition in competitions
         if datetime.strptime(competition['date'], '%Y-%m-%d %H:%M:%S') >= datetime.now()
     ]
+
+
+def load_clubs():
+    with open('clubs.json') as clubs_json:
+         return json.load(clubs_json)['clubs']
+
+
+def load_competitions():
+    with open('competitions.json') as competitions_json:
+         return json.load(competitions_json)['competitions']

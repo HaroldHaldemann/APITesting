@@ -1,4 +1,3 @@
-import json
 from operator import itemgetter
 
 from flask import Flask, render_template, request, redirect, flash, url_for
@@ -6,22 +5,12 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 import utils
 
 
-def load_clubs():
-    with open('clubs.json') as clubs_json:
-         return json.load(clubs_json)['clubs']
-
-
-def load_competitions():
-    with open('competitions.json') as competitions_json:
-         return json.load(competitions_json)['competitions']
-
-
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
 
-CLUBS = load_clubs()
-COMPETITIONS = load_competitions()
+CLUBS = utils.load_clubs()
+COMPETITIONS = utils.load_competitions()
 
 PAST_COMPETITIONS = utils.get_past_competitions(COMPETITIONS)
 PRESENT_COMPETITIONS = utils.get_present_competitions(COMPETITIONS)
@@ -90,8 +79,8 @@ def purchase_places():
     competition_places = int(competition['numberOfPlaces'])
     club_points = int(club['points'])
 
-    if not (0 < required_places < 13):
-        flash("Please enter a valid number (between 1 and 12).", 'error')
+    if not (0 <= required_places <= 12):
+        flash("Please enter a valid number (between 0 and 12).", 'error')
     
     elif required_places > competition_places:
         flash(f"There are only {competition_places} places available.", 'error')

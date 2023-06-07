@@ -49,7 +49,7 @@ class TestPurchasePlaces:
 
         # then
         assert result.status_code == 400
-        assert "Please enter a valid number (between 1 and 12)." in result.data.decode()
+        assert "Please enter a valid number (between 0 and 12)." in result.data.decode()
     
     def test_reach_max_places_in_competition(self):
         # given
