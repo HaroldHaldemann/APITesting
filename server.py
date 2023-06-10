@@ -75,6 +75,10 @@ def purchase_places():
     club = [club for club in CLUBS if club['name'] == request.form['club']][0]
     competition = [competition for competition in COMPETITIONS if competition['name'] == request.form['competition']][0]
 
+    if not request.form['places'].isdigit():
+        flash("Please enter a valid number (between 1 and 12).", 'error')
+        return render_template('booking.html', club=club, competition=competition), 400
+
     required_places = int(request.form['places'])
     competition_places = int(competition['numberOfPlaces'])
     club_points = int(club['points'])
@@ -93,8 +97,8 @@ def purchase_places():
     
     else:
         utils.update_booked_places(competition['name'], club['name'], BOOKED_PLACES, required_places)
-        competition['numberOfPlaces'] = competition_places - required_places
-        club['points'] = club_points - (required_places * 3)
+        competition['numberOfPlaces'] = str(competition_places - required_places)
+        club['points'] = str(club_points - (required_places * 3))
         flash('Great-booking complete!', 'success')
         return render_template(
             'welcome.html',
