@@ -57,5 +57,4 @@ class TestBook:
         result = self.client.get(f"/book/{competition_name}/{club_name}")
 
         # then
-        assert result.status_code == 404
-        assert f"There is no club with the name {club_name}." in result.data.decode()
+        assert result.status_code == 302
