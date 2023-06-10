@@ -24,7 +24,7 @@ class TestShowSummary:
         result = self.client.post("/show-summary", data={"email": email})
 
         # then
-        assert result.status_code == 401
+        assert result.status_code == 404
         assert f"No account related to this email: {email}." in result.data.decode('utf-8')
 
     def test_empty_email(self):
@@ -35,5 +35,5 @@ class TestShowSummary:
         result = self.client.post("/show-summary", data={"email": email})
 
         # then
-        assert result.status_code == 401
+        assert result.status_code == 400
         assert "Please enter your email." in result.data.decode('utf-8')

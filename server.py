@@ -38,7 +38,7 @@ def show_summary():
     email = request.form.get('email', "")
     if not email:
         flash("Please enter your email.", 'error')
-        return render_template('index.html'), 401
+        return render_template('index.html'), 400
 
     club = [club for club in CLUBS if club['email'] == email]
 
@@ -51,7 +51,7 @@ def show_summary():
         )
 
     flash(f"No account related to this email: {email}.", 'error')
-    return render_template('index.html'), 401
+    return render_template('index.html'), 404
 
 
 @app.route('/book/<competition_name>/<club_name>')
