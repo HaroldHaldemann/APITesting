@@ -49,7 +49,7 @@ def book(competition_name, club_name):
     found_club = [club for club in CLUBS if club['name'] == club_name]
     if not found_club:
         flash(f"There is no club with the name {club_name}.", 'error')
-        return render_template('index.html'), 404
+        return redirect(url_for('index'))
 
     found_competition = [competition for competition in COMPETITIONS if competition['name'] == competition_name]
     if not found_competition:

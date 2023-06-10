@@ -6,7 +6,6 @@
 </head>
 <body>
     <h2>Welcome, {{club['email']}} </h2><a href="{{ url_for('logout') }}">Logout</a>
-
     {% with messages = get_flashed_messages()%}
     {% if messages %}
         <ul>
@@ -15,11 +14,8 @@
         {% endfor %}
         </ul>
     {% endif%}
-
     Points available: {{club['points']}}
-
     <h3>Open Competitions:</h3>
-
     <ul>
         {% for competition in present_competitions %}
         <li>
@@ -35,9 +31,7 @@
         </li>
         {% endfor %}
     </ul>
-
     <h3>Past Competitions:</h3>
-
     <ul>
         {% for competition in past_competitions %}
         <li>
@@ -49,8 +43,5 @@
         {% endfor %}
     </ul>
     {%endwith%}
-
-    <a href="{{ url_for('club_points') }}">View club points</a>
-
 </body>
 </html>
