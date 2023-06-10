@@ -41,6 +41,25 @@ class TestPurchasePlaces:
         result = self.client.post(
             "/purchase-places",
             data={
+                "places": "NaN",
+                "club": club_name,
+                "competition": competition_name
+            }
+        )
+
+        # then
+        assert result.status_code == 400
+        assert "Please enter a valid number (between 1 and 12)." in result.data.decode()
+    
+    def test_invalid_required_places_number(self):
+        # given
+        club_name = mocks.MOCK_CLUBS[0]['name']
+        competition_name = mocks.MOCK_COMPETITIONS[0]['name']
+
+        # when
+        result = self.client.post(
+            "/purchase-places",
+            data={
                 "places": 15,
                 "club": club_name,
                 "competition": competition_name
